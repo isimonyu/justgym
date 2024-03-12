@@ -5,14 +5,19 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Root, { loader as rootLoader, action as rootAction, } from "./routes/root";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
+// Exercises
 import Exercises, {loader as exercisesLoader } from "./routes/exercises";
 import Exercise, {loader as exerciseLoader, action as exerciseAction} from "./routes/exercise";
 import EditExercise, {action as editExerciseAction} from "./routes/editExercises";
-import CreateExercise, {action as createExerciseAction} from "./routes/createExercise";
-
+import CreateExercise, {submitForm as createExerciseAction} from "./routes/createExercise";
+// Weights
+import Weights, {loader as weightsLoader, action as weightsAction} from "./routes/weights";
+import Weight, {loader as weightLoader, action as weightAction} from "./routes/editWeight";
+import CreateWeight, {action as createWeightAction} from "./routes/createWeight";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +31,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           { index: true, element: <Index />},
+          // Exercises
           { path: "exercises",
             element: <Exercises />,
             loader: exercisesLoader,
@@ -44,6 +50,21 @@ const router = createBrowserRouter([
           element: <EditExercise />,
           loader: exerciseLoader,
           action: editExerciseAction,
+          },
+          // Weights
+          { path: "weights",
+            element: <Weights />,
+            loader: weightsLoader,
+            action: weightsAction,
+          },
+          { path: "weights/:weightId",
+            element: <Weight />,
+            loader: weightLoader,
+            action: weightAction,
+          },
+          { path: "weights/create",
+            element: <CreateWeight />,
+            action: createWeightAction,
           },
         ]
       },

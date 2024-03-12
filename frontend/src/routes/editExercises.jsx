@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
 import { updateExercise } from "../exercises";
+import Button from 'react-bootstrap/Button';
 import { createEbp, deleteEBPid, getEBPid } from "../ebp";
 
 
@@ -21,20 +22,19 @@ export async function action({ request, params }) {
                 await createEbp({"exercise_id": params.exerciseId, "bp_id": newParts[id]})
             }
         }
-
-        // Check to delete
-        for (let id in oldParts) {
-            if (!newParts.includes(oldParts[id])){
-                console.log(oldParts[id])
-                console.log(params.exerciseId)
-                //  Get ebp_id using bp_id
-                await getEBPid(params.exerciseId, oldParts[id])
-                .then(async (res) => {        
-                    console.log(res)
-                    await deleteEBPid(res[0].ebp_id)
-                })
-                
-            }
+        if (oldParts.length > 1) {
+          // Check to delete
+          for (let id in oldParts) {
+              if (!newParts.includes(oldParts[id])){
+                  //  Get ebp_id using bp_id
+                  await getEBPid(params.exerciseId, oldParts[id])
+                  .then(async (res) => {        
+                      console.log(res)
+                      await deleteEBPid(res[0].ebp_id)
+                  })
+                  
+              }
+          }
         }
     }
 
@@ -72,7 +72,6 @@ export default function EditExercise() {
       <p>
         <span>Exercise Name*</span> <br/>
         <input
-          placeholder="Name"
           aria-label="Exercise name"
           type="text"
           name="name"
@@ -89,7 +88,6 @@ export default function EditExercise() {
             ))}
         </select>
     </p>
-    <p>
         <span>Muscles Worked* (Select all that apply): </span> <br/>
         <div className="body_parts">
             {bodyParts.map((part) => (
@@ -106,10 +104,10 @@ export default function EditExercise() {
                 </span>
             ))}
         </div>
-      </p>
+    
       <p className="buttons">
-        <button className="left_button"type="submit" name="og" value={original}>Save</button>
-        <button className="right_button"type="button" onClick={() => { navigate(-1);}}>Cancel</button>
+        <Button className="left_button" variant="light" onClick={() => { navigate('/exercises');}}>Cancel</Button>
+        <Button className="right_button"  type="submit" name="og" value={original} >Save</Button>
       </p>
     </Form>
   );

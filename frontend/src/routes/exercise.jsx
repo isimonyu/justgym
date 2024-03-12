@@ -1,5 +1,9 @@
-import { Form, useLoaderData, useFetcher,redirect } from "react-router-dom";
+import { Form, useLoaderData, useNavigate,redirect } from "react-router-dom";
 import { getExercise, getExercises, deleteExercise } from "../exercises";
+import CloseButton from 'react-bootstrap/CloseButton';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import { getEquipment, getEquipments } from "../equipments";
 import { getBPbyExerciseId, deleteEBPid } from "../ebp";
 import { getBodyParts } from "../bodyparts";
@@ -27,6 +31,7 @@ export async function action({ request, params }){
     const bp = updates.parts.split(',')
 
     const deleteEBP = async () => {
+      console.log('Removing EBP FK references')
         for (let id in bp){
             console.log(bp[id])
             await deleteEBPid(bp[id])
@@ -44,38 +49,38 @@ export async function action({ request, params }){
 
 export default function Exercise() {
  const { exercise, equipment, bp, bodyParts, equipments } = useLoaderData();
+ const navigate = useNavigate()
  const original = []
   bp.map((p) => {
   original.push(p.ebp_id)
   });
 
   return (
-    <div id="contact">
-
-      <div>
+    <div id="exercise">
+          <CloseButton onClick={() => {navigate('/exercises')}} /> 
+        <br />
+        <br />
         <h1>
               {exercise[0].name}{" "}
-          {/* <Favorite contact={contact} /> */}
         </h1>
-        <p>
-            Equipment: {equipment[0].name}
-        </p>
+        <div>
+            Equipment: <Card style={{ width: '18rem' }} body>{equipment[0].name}</Card>
+        </div>
         <p>
             Muscle Groups:
         </p>
-        <ul>
+        <ListGroup horizontal>
             {bp.map((p) => (
-                <li key={p.name}>
+                <ListGroup.Item key={p.name}>
                     {p.name}
-                </li>
+                </ListGroup.Item>
             ))}
-        </ul>
-
-        {exercise.equipment_id}
-
+        </ListGroup>
+              <br />
+              <br />
         <div className="buttons">
           <Form action="edit">
-            <button className="left_button" type="submit">Edit</button>
+            <Button type="submit" variant="secondary" className="left_button">Edit</Button>
           </Form>
           <Form
             method="post"
@@ -90,34 +95,9 @@ export default function Exercise() {
               }
             }}
           >
-            <button className="right_button" type="submit" name='parts'
-            value={original}>Delete</button>
+            <Button type="submit" variant="danger" className="right_button" name='parts' value={original}>Delete</Button>
           </Form>
         </div>
-      </div>
     </div>
   );
 }
-
-// function Favorite({ contact }) {
-//     const fetcher = useFetcher();
-//     let favorite = contact.favorite;
-//     if (fetcher.formData) {
-//         favorite = fetcher.formData.get("favorite") === "true";
-//       }
-//     return (
-//     <fetcher.Form method="post">
-//       <button
-//         name="favorite"
-//         value={favorite ? "false" : "true"}
-//         aria-label={
-//           favorite
-//             ? "Remove from favorites"
-//             : "Add to favorites"
-//         }
-//       >
-//         {favorite ? "★" : "☆"}
-//       </button>
-//     </fetcher.Form>
-//   );
-// }

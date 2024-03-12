@@ -1,35 +1,40 @@
 import React, { useState } from "react";
-import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
+import { useLoaderData, redirect, useNavigate } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { createExercise, getExerciseName } from "../exercises";
 import { createEbp } from "../ebp";
 
-export async function action({ request }) {
+export async function submitForm(event, parts, navigate) {
+    event.preventDefault()
     // Get data from Form
-    const formData = await request.formData();
-    const updates = Object.fromEntries(formData);
-    const bodyParts = updates.parts.split(',')
-    console.log(bodyParts)
-    // Create Exercise
-    await createExercise(updates)
-    // Get Exercise 
+    const formData = new FormData(event.target)
+    const formDataObj = Object.fromEntries(formData.entries())
     let exercise
-    await getExerciseName(formData.get('name')).then(async (res) => {
+    // Create Exercise
+    await createExercise(formDataObj).then(async (res) => {
+      // Get Exercise 
+      await getExerciseName(formDataObj.name).then(async (res) => {
         exercise = res
+
         // Add Exercise to ebp
-        for (let id in bodyParts) {
-            await createEbp({'exercise_id': exercise[0].exercise_id, 'bp_id': bodyParts[id]})
+        for (let id in parts) {
+          await createEbp({'exercise_id': exercise[0].exercise_id, 'bp_id': parts[id]})
         }
-    })
-    
-    return redirect(`/exercises/${exercise[0].exercise_id}`);
-  }
+
+        navigate(`/exercises`)
+      })
+    }) 
+}
 
 export default function CreateExercise() {
   const { bodyParts, equipments } = useLoaderData();
   const [parts, setParts] = useState([]);
   const navigate = useNavigate();
 
-  const handleCheckbox = (bp_id) => {
+  const handleCheckbox = (event) => {
+    const bp_id = event.target.id
+    console.log(parts)
     if (parts.includes(bp_id)) {
         setParts(parts.filter((id) => id !== bp_id));
     } else {
@@ -38,50 +43,43 @@ export default function CreateExercise() {
   };
 
   return (
-    <Form method="post" className="exercise_form">
+    <Form onSubmit={(event) => submitForm(event, parts, navigate)} className="exercise_form">
         <h1>Create an Exercise</h1>
-        <p>Required Fields (*)</p>
-      <p>
-        <span>Exercise Name*:</span> <br/>
-        <input
-          placeholder="Name"
-          aria-label="Exercise name"
-          type="text"
-          name="name"
-        />
-      </p>
-      <p>
-        <span>Type of Equipment*:</span> <br/>
-        <select name="equipment_id">
+        <p>Takes 2 minutes. Required Fields (*)</p>
+      <Form.Group className="mb-3" controlId="name">
+        <Form.Label>Exercise Name*:</Form.Label>
+        <Form.Control type="text" placeholder="Name" name="name" />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Type of Equipment*:</Form.Label>
+        <Form.Select name="equipment_id">
             <option value="" selected disabled hidden>--Pick One--</option>
             {equipments.map((equip) => (
                 <option value={equip.equipment_id} key={equip.equipment_id}>
                     {equip.name}
                 </option>
             ))}
-        </select>
-    </p>
-    <p>
-        <span>Muscles Worked* (Select all that apply): </span> <br/>
+        </Form.Select>
+    </Form.Group>
+    <Form.Group>
+        <Form.Label>Muscles Worked* (Select all that apply): </Form.Label>
         <div className="body_parts">
             {bodyParts.map((part) => (
-                <span key={part.bp_id}>
-                <input 
+            <div key={part.bp_id} className="mb-2">
+                <Form.Check
+                label={part.name}
                 type="checkbox"
                 id={part.bp_id}
-                value={parts}
-                name="parts"
-                onChange={() => handleCheckbox(part.bp_id)}
-                /> {" "}
-                <label htmlFor={part.bp_id} className="radio">{part.name}</label>
-                </span>
+                onChange={handleCheckbox}
+              />
+            </div>
             ))}
         </div>
-      </p>
-      <p className="buttons"> 
-        <button className="left_button" type="submit">Save</button>
-        <button className="right_button"type="button" onClick={() => { navigate(-1);}}>Cancel</button>
-      </p>
+      </Form.Group>
+      <div className="buttons"> 
+        <Button className="left_button" variant="light" onClick={() => { navigate(-1);}}>Cancel</Button>
+        <Button className="right_button"  type="submit" >Save</Button>
+      </div>
     </Form>
   );
 }

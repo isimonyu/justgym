@@ -44,8 +44,8 @@ export default function Root() {
                         : ""
                     }
                   >Exercises</NavLink>
-              {/* <NavLink
-                    to={`dailyweights/`}
+              <NavLink
+                    to={`weights/`}
                     className={({ isActive, isPending }) =>
                       isActive
                         ? "active"
@@ -53,7 +53,7 @@ export default function Root() {
                         ? "pending"
                         : ""
                     }
-                  >Daily Weights</NavLink> */}
+                  >Weight Logs</NavLink>
             </ul>
           </nav>
         </div>

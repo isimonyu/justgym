@@ -55,23 +55,63 @@ button:active {
   box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
   transform: translateY(1px);
 }
-
-.exercise_form {
+.header {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.right_header{
+  margin-right: 5rem;
+  display: inline;
+  align-items: center;
+}
+.gray{
+  color: rgb(105, 104, 104);
+}
+.exercise_form, .weight_form {
   max-width: 75%;
 }
-
-.search-bar {
-  display: flex;
+.search-bar > input{
+  width: 75%;
 }
 
 .exercise_list {
+  max-width: 75%;
   margin-top: 1rem;
   height: 72vh;
   overflow-y: scroll;
 }
 
-.exercise_list > ul {
-  text-decoration: none;
+.weight_list {
+  max-width: 75%;
+  margin-top: 1rem;
+  height: 69vh;
+  overflow-y: scroll;
+}
+
+.tab_style {
+  max-width: 75%;
+}
+
+.history {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.weight_icons {
+  margin: 0 2rem 0 2rem;
+}
+
+.edit_icon {
+  color: gray;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.delete_icon {
+  color: rgb(196, 27, 27);
+  margin-left: 1rem;
+  cursor: pointer;
 }
 
 .body_parts {
