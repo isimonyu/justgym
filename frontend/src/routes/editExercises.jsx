@@ -106,7 +106,7 @@ export default function EditExercise() {
         </div>
     
       <p className="buttons">
-        <Button className="left_button" variant="light" onClick={() => { navigate('/exercises');}}>Cancel</Button>
+        <Button className="left_button" variant="light" onClick={() => { navigate('/exercises/');}}>Cancel</Button>
         <Button className="right_button"  type="submit" name="og" value={original} >Save</Button>
       </p>
     </Form>

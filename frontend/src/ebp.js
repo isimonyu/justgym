@@ -1,5 +1,4 @@
 import axios from "axios";
-import { matchSorter } from "match-sorter";
 
 const API_BASE_URL = "http://localhost:3000";
 

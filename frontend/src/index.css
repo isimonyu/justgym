@@ -57,7 +57,7 @@ button:active {
 }
 .header {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 50% auto;
 }
 .right_header{
   margin-right: 5rem;
@@ -67,11 +67,27 @@ button:active {
 .gray{
   color: rgb(105, 104, 104);
 }
+.index_link {
+  color: rgb(80, 52, 192);
+  font-weight: bold;
+  cursor: pointer;
+}
+.exercise_info {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.exercise_sets {
+  height: 55vh;
+  overflow-y: scroll;
+}
 .exercise_form, .weight_form {
   max-width: 75%;
 }
 .search-bar > input{
   width: 75%;
+}
+.table_tabs {
+  font-size: .75em;
 }
 
 .exercise_list {
@@ -79,6 +95,9 @@ button:active {
   margin-top: 1rem;
   height: 72vh;
   overflow-y: scroll;
+}
+.sets_img {
+  width: 80%;
 }
 
 .weight_list {
@@ -161,8 +180,9 @@ form[action$="destroy"] button {
 
 #sidebar {
   width: 22rem;
-  background-color: #f7f7f7;
-  border-right: solid 1px #e3e3e3;
+  background-color: #434242;
+  color: white;
+  border-right: solid 1px #fbf8fc;
   display: flex;
   flex-direction: column;
 }
@@ -278,16 +298,16 @@ i {
 }
 
 #sidebar nav a:hover {
-  background: #e3e3e3;
+  background: #9f9e9e;
 }
 
 #sidebar nav a.active {
-  background: hsl(224, 98%, 58%);
-  color: white;
+  background: hsl(0, 0%, 99%);
+  color: black;
 }
 
 #sidebar nav a.pending {
-  color: hsl(224, 98%, 58%);
+  color: hsl(0, 0%, 99%);
 }
 
 #detail {

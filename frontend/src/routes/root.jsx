@@ -35,25 +35,35 @@ export default function Root() {
                     }
                   >Dashboard</NavLink>
               <NavLink
-                    to={`exercises/`}
-                    className={({ isActive, isPending }) =>
-                      isActive
-                        ? "active"
-                        : isPending
-                        ? "pending"
-                        : ""
-                    }
-                  >Exercises</NavLink>
-              <NavLink
                     to={`weights/`}
                     className={({ isActive, isPending }) =>
-                      isActive
-                        ? "active"
-                        : isPending
-                        ? "pending"
-                        : ""
-                    }
+                    isActive
+                    ? "active"
+                    : isPending
+                    ? "pending"
+                    : ""
+                  }
                   >Weight Logs</NavLink>
+                <NavLink
+                      to={`exercises/`}
+                      className={({ isActive, isPending }) =>
+                        isActive
+                          ? "active"
+                          : isPending
+                          ? "pending"
+                          : ""
+                      }
+                    >Exercises</NavLink>
+                <NavLink
+                      to={`sets/`}
+                      className={({ isActive, isPending }) =>
+                        isActive
+                          ? "active"
+                          : isPending
+                          ? "pending"
+                          : ""
+                      }
+                    >Exercise Sets</NavLink>
             </ul>
           </nav>
         </div>

@@ -8,7 +8,8 @@ import "./index.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Root, { loader as rootLoader, action as rootAction, } from "./routes/root";
 import ErrorPage from "./error-page";
-import Index from "./routes/index";
+// Index
+import Index, {loader as indexLoader} from "./routes/index";
 // Exercises
 import Exercises, {loader as exercisesLoader } from "./routes/exercises";
 import Exercise, {loader as exerciseLoader, action as exerciseAction} from "./routes/exercise";
@@ -18,6 +19,10 @@ import CreateExercise, {submitForm as createExerciseAction} from "./routes/creat
 import Weights, {loader as weightsLoader, action as weightsAction} from "./routes/weights";
 import Weight, {loader as weightLoader, action as weightAction} from "./routes/editWeight";
 import CreateWeight, {action as createWeightAction} from "./routes/createWeight";
+// Sets
+import Sets, {loader as setsLoader } from "./routes/sets";
+import CreateSet, { loader as setCreateLoader, action as createSetAction}  from "./routes/createSet";
+import EditSet, {loader as setLoader, action as setAction} from "./routes/editSets";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +35,10 @@ const router = createBrowserRouter([
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <Index />},
+          { index: true, 
+            element: <Index />,
+            loader: indexLoader,
+          },
           // Exercises
           { path: "exercises",
             element: <Exercises />,
@@ -65,6 +73,21 @@ const router = createBrowserRouter([
           { path: "weights/create",
             element: <CreateWeight />,
             action: createWeightAction,
+          },
+          // Sets
+          { path: "sets",
+            element: <Sets />,
+            loader: setsLoader,
+          },
+          { path: "sets/:setId",
+          element: <EditSet />,
+          loader: setLoader,
+          action: setAction,
+          },
+          { path: "sets/create",
+            element: <CreateSet />,
+            loader: setCreateLoader,
+            action: createSetAction,
           },
         ]
       },

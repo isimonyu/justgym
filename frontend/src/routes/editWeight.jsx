@@ -33,7 +33,7 @@ export default function EditWeight() {
 
     return (
         <div>
-            <CloseButton onClick={() => {navigate('/weights')}} /> 
+            <CloseButton onClick={() => {navigate('/weights/')}} /> 
             <br />
             <br />
             <Form method="post" className="weight_form">
@@ -48,7 +48,7 @@ export default function EditWeight() {
               <br />
               <br />
               <p className="buttons">
-                  <Button className="left_button" variant="light" onClick={() => { navigate('/weights');}}>Cancel</Button>
+                  <Button className="left_button" variant="light" onClick={() => { navigate('/weights/');}}>Cancel</Button>
                   <Button className="right_button"  type="submit">Save</Button>
               </p>
             </Form>
