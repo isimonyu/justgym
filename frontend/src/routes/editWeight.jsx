@@ -12,7 +12,7 @@ export async function action({ request, params }) {
     updates.user_id = 1
     await editWeight(updates)
 
-    return redirect('/weights')
+    return redirect('/weights/')
 }
 
 export async function loader({ params }) {

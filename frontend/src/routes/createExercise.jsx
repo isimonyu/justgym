@@ -22,7 +22,7 @@ export async function submitForm(event, parts, navigate) {
           await createEbp({'exercise_id': exercise[0].exercise_id, 'bp_id': parts[id]})
         }
 
-        navigate(`/exercises`)
+        navigate(`/exercises/`)
       })
     }) 
 }

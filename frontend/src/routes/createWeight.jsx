@@ -10,7 +10,7 @@ export async function action({ request }) {
     console.log(updates)
     await createWeight(updates)
 
-    return redirect('/weights')
+    return redirect('/weights/')
 }
 
 export default function CreateWeight() {

@@ -96,7 +96,7 @@ export async function action(e, weight_id, navigate) {
     
     await deleteWeight(weight_id)
 
-    navigate('/weights')
+    navigate('/weights/')
 }
 
 export function convertDate(dateStr) {

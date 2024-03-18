@@ -88,7 +88,7 @@ export async function action({ request, params }){
         await deleteExercise(params.exerciseId)
     )
 
-    return redirect('/exercises')
+    return redirect('/exercises/')
 }
 
 export async function deleteSet(e, es_id, exerciseId, navigate) {
