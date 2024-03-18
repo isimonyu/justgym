@@ -107,7 +107,7 @@ export default function EditExercise() {
     
       <p className="buttons">
         <Button className="left_button" variant="light" onClick={() => { navigate('/exercises/');}}>Cancel</Button>
-        <Button className="right_button"  type="submit" name="og" value={original} >Save</Button>
+        <Button className="right_button" variant="secondary"  type="submit" name="og" value={original} >Save</Button>
       </p>
     </Form>
   );

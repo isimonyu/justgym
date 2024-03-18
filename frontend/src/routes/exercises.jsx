@@ -38,10 +38,10 @@ export default function Exercises() {
       <div className="header">
         <div className="left_header">
             <h1>Exercises</h1>
-            <p className="description">Click an exercise to view more information.</p>
+            <p className="description">Add a new exercise or click an exercise to view more information.</p>
         </div>
         <Form action="create" className="right_header">  
-            <Button className="right_button" type="submit"> Add New</Button>
+            <Button className="right_button" variant="secondary" type="submit"> Add New</Button>
         </Form>
         </div>
         <Form id="search-form" role="search" className="search-bar">

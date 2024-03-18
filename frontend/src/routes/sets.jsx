@@ -51,10 +51,10 @@ export default function Sets() {
       <div className="header">
         <div className="left_header">
             <h1>Exercise Sets</h1>
-            <p className="description">Click a set to view more information.</p>
+            <p className="description">Add a new exercise set or search for sets by exercise name.</p>
         </div>
         <Form action="create" className="right_header">  
-            <Button className="right_button" type="submit"> Add New</Button>
+            <Button className="right_button" variant="secondary" type="submit"> Add New</Button>
         </Form>
         </div>
         <Form id="search-form" role="search" className="search-bar">

@@ -64,9 +64,6 @@ button:active {
   display: inline;
   align-items: center;
 }
-.gray{
-  color: rgb(105, 104, 104);
-}
 .index_link {
   color: rgb(80, 52, 192);
   font-weight: bold;
@@ -103,7 +100,7 @@ button:active {
 .weight_list {
   max-width: 75%;
   margin-top: 1rem;
-  height: 69vh;
+  height: 62vh;
   overflow-y: scroll;
 }
 
@@ -310,6 +307,7 @@ i {
   color: hsl(0, 0%, 99%);
 }
 
+
 #detail {
   flex: 1;
   padding: 2rem 4rem;
@@ -351,5 +349,5 @@ i {
 }
 
 .description {
-  color:#535252;
+  color: rgb(105, 104, 104);
 }

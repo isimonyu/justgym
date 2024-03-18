@@ -49,7 +49,7 @@ export default function EditWeight() {
               <br />
               <p className="buttons">
                   <Button className="left_button" variant="light" onClick={() => { navigate('/weights/');}}>Cancel</Button>
-                  <Button className="right_button"  type="submit">Save</Button>
+                  <Button className="right_button" variant="secondary" type="submit">Save</Button>
               </p>
             </Form>
         </div>

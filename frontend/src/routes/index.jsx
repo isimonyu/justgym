@@ -25,8 +25,8 @@ export default function Index() {
 
     return (
         <div>
-            {console.log(today)}
             <h1>Welcome!</h1>
+            <br />
             <h3>Summary</h3>
             {today[0].sets > 0 ? 
             <p>Today, <br />

@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Root, { loader as rootLoader, action as rootAction, } from "./routes/root";
+import Root from "./routes/root";
 import ErrorPage from "./error-page";
 // Index
 import Index, {loader as indexLoader} from "./routes/index";
@@ -28,8 +28,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    loader: rootLoader,
-    action: rootAction,
     errorElement: <ErrorPage />,
     children: [
       {
