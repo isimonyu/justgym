@@ -7,8 +7,7 @@ export default function Root() {
     return (
       <>
         <div id="sidebar">
-          <h1>JustGym</h1>
-            
+          <h1>SetsOnSets <span id="signature">by Simon</span></h1>
           <nav>
           <ul>
               <NavLink

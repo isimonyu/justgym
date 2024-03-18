@@ -193,7 +193,8 @@ form[action$="destroy"] button {
   font-size: 1.5rem;
   font-weight: 500;
   display: flex;
-  align-items: center;
+  align-items:last baseline;
+  text-align: center;
   margin: 0;
   padding: 1rem 2rem;
   border-top: 1px solid #e3e3e3;
@@ -202,6 +203,10 @@ form[action$="destroy"] button {
   font-weight: bold;
 }
 
+#signature {
+  font-size: .75rem;
+  margin-left: 1rem;
+}
 
 #sidebar > div {
   display: flex;
