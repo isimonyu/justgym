@@ -83,6 +83,7 @@ export default function Sets() {
             <th>Reps</th>
             <th>Weight (lbs)</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -102,6 +103,8 @@ export default function Sets() {
                 </td>
                 <td>
                 <BsPencilSquare className="edit_icon" onClick={ () => {navigate(`${set.es_id}`)}}></BsPencilSquare>
+                </td>
+                <td>
                 <BsFillTrashFill className="delete_icon" onClick={(e) => {deleteSet(e, set.es_id, navigate)}}></BsFillTrashFill>
                 </td>
             </tr>
