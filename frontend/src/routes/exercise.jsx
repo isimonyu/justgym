@@ -77,7 +77,6 @@ export async function action({ request, params }){
     const bp = updates.parts.split(',')
 
     const deleteEBP = async () => {
-      console.log('Removing EBP FK references')
         for (let id in bp){
             console.log(bp[id])
             await deleteEBPid(bp[id])
