@@ -6,6 +6,23 @@ var con = mysql.createConnection({
   password: "wizard301",
   database: "workout",
 });
+/*
+
+Do Query
+
+*/
+
+async function doQuery(query) {
+  let pro = new Promise((resolve, reject) => {
+    con.query(query, function (err, result) {
+      if (err) throw err;
+      resolve(result);
+    });
+  });
+  return pro.then((val) => {
+    return val;
+  });
+}
 
 /*
 
@@ -111,33 +128,8 @@ async function deleteOne(table, attribute, id) {
   });
 }
 
-// async function doQuery(queryToDo) {
-//   let pro = new Promise((resolve, reject) => {
-//     let query = queryToDo;
-//     con.query(query, function (err, result) {
-//       if (err) throw err;
-//       resolve(result);
-//     });
-//   });
-//   return pro.then((val) => {
-//     return val;
-//   });
-// }
-
-// async function doQueryParams(queryToDo, array) {
-//   let pro = new Promise((resolve, reject) => {
-//     let query = queryToDo;
-//     con.query(query, array, function (err, result) {
-//       if (err) throw err;
-//       resolve(result);
-//     });
-//   });
-//   return pro.then((val) => {
-//     return val;
-//   });
-// }
-
 module.exports = {
+  doQuery: doQuery,
   findAll: findAll,
   findOne: findOne,
   findJoin: findJoin,

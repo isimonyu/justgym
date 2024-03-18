@@ -64,6 +64,7 @@ CREATE TABLE WorkoutLogs (
     workout_id int NOT NULL AUTO_INCREMENT,
     name varchar(255),
     notes text,
+    date date NOT NULL,
     user_id int,
     PRIMARY KEY (workout_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)

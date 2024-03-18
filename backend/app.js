@@ -154,16 +154,42 @@ app.get("/dailyweights/:_id", async (req, res) => {
   res.send(await db.findOne("DailyWeights", "weight_id", `${req.params._id}`));
 });
 
+// RETRIEVE Average DailyWeights by weeks
+app.get("/dailyweights/avg/week", async (req, res) => {
+  let query1 = `SELECT EXTRACT(WEEK from date) as Week, AVG(weight) as Weight from DailyWeights GROUP BY EXTRACT(WEEK from date);`;
+  res.send(await db.doQuery(query1));
+});
+
+// RETRIEVE Average DailyWeights by days for last 7 days
+app.get("/dailyweights/avg/day", async (req, res) => {
+  let query1 = `SELECT CONCAT(EXTRACT(MONTH FROM date), '/', EXTRACT(DAY FROM date)) as MonthDay,
+    SUM(weight) as Weight 
+    FROM DailyWeights 
+    GROUP BY MonthDay 
+    ORDER BY MAX(date) DESC
+    LIMIT 7;`;
+  res.send(await db.doQuery(query1));
+});
+
+// RETRIEVE Average DailyWeights by months
+app.get("/dailyweights/avg/month", async (req, res) => {
+  let query1 = `SELECT DATE_FORMAT(date, '%b') as Month, AVG(weight) as Weight
+  FROM DailyWeights
+  GROUP BY Month
+  ORDER BY MIN(date);`;
+  res.send(await db.doQuery(query1));
+});
+
 // RETRIEVE DailyWeights by user_id
 app.get("/dailyweights/users/:_id", async (req, res) => {
   res.send(
     await db.findJoin(
-      "*",
+      "DailyWeights.date, DailyWeights.weight, DailyWeights.weight_id",
       "DailyWeights",
       "Users",
       "DailyWeights.user_id = Users.user_id",
       "DailyWeights.user_id",
-      `${req.params._id}`
+      `${req.params._id} ORDER BY DailyWeights.date DESC`
     )
   );
 });
@@ -211,7 +237,7 @@ app.post("/exercises", async (req, res) => {
 
 // RETRIEVE ALL Exercises
 app.get("/exercises", async (req, res) => {
-  res.send(await db.findAll("Exercises"));
+  res.send(await db.findAll("Exercises ORDER BY name ASC"));
 });
 
 // RETRIEVE Exercise by id
@@ -272,7 +298,7 @@ app.post("/ebp", async (req, res) => {
   res.send(
     await db.insertOne(
       "ExerciseBodyParts(exercise_id, bp_id)",
-      `(${req.body.exercise_id}, ${req.body.bp_id})`
+      `(${parseInt(req.body.exercise_id)}, ${parseInt(req.body.bp_id)})`
     )
   );
 });
@@ -345,6 +371,118 @@ app.delete("/ebp/:_id", async (req, res) => {
   res.send(
     await db.deleteOne("ExerciseBodyParts", "ebp_id", `${req.params._id}`)
   );
+});
+
+/* 
+
+ExerciseSets Endpoints
+
+*/
+
+// Create ExerciseSets
+app.post("/sets", async (req, res) => {
+  res.send(
+    await db.insertOne(
+      "ExerciseSets(date, exercise_id, reps, weight)",
+      `("${req.body.date}", ${parseInt(req.body.exercise_id)}, ${parseInt(
+        req.body.reps
+      )}, ${parseInt(req.body.weight)})`
+    )
+  );
+});
+
+// RETRIEVE ALL ExerciseSets with Exercise Name
+app.get("/sets", async (req, res) => {
+  res.send(
+    await db.doQuery(
+      "SELECT es_id, date, name, ExerciseSets.exercise_id, reps, weight FROM ExerciseSets JOIN Exercises ON ExerciseSets.exercise_id = Exercises.exercise_id ORDER BY date DESC;"
+    )
+  );
+});
+
+// RETRIEVE Total Reps and Weight by exercise_id
+app.get("/sets/total/exercise/:_id", async (req, res) => {
+  res.send(
+    await db.doQuery(
+      `SELECT date, SUM(reps) AS total_reps, SUM(reps * weight) AS total_weight
+      FROM ExerciseSets
+      WHERE exercise_id = ${req.params._id}
+      GROUP BY date
+      ORDER BY date;`
+    )
+  );
+});
+
+// RETRIEVE Average Reps and Weight by exercise_id
+app.get("/sets/average/exercise/:_id", async (req, res) => {
+  res.send(
+    await db.doQuery(
+      `SELECT date, AVG(reps) AS average_reps, AVG(weight) AS average_weight, AVG(reps * weight) AS average_volume
+      FROM ExerciseSets
+      WHERE exercise_id = ${req.params._id}
+      GROUP BY date
+      ORDER BY date;`
+    )
+  );
+});
+
+// RETRIEVE Total Sets and weight Today
+app.get("/sets/total/today", async (req, res) => {
+  res.send(
+    await db.doQuery(
+      `SELECT COUNT(*) AS sets, SUM(reps * weight) AS weight
+      FROM ExerciseSets
+      WHERE DATE(date) = CURDATE();`
+    )
+  );
+});
+
+// RETRIEVE Total Sets and Weight Last 7 Days
+app.get("/sets/total/days", async (req, res) => {
+  res.send(
+    await db.doQuery(
+      `SELECT COUNT(*) AS sets, SUM(reps * weight) AS weight
+      FROM ExerciseSets
+      WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);`
+    )
+  );
+});
+
+// RETRIEVE ExerciseSets by id
+app.get("/sets/:_id", async (req, res) => {
+  res.send(await db.findOne("ExerciseSets", "es_id", `${req.params._id}`));
+});
+
+// RETRIEVE ExerciseSets by exercise_id
+app.get("/sets/exercise/:_id", async (req, res) => {
+  res.send(
+    await db.findOne(
+      "ExerciseSets",
+      "exercise_id",
+      `${req.params._id} ORDER BY date DESC`
+    )
+  );
+});
+
+// Update ExerciseSets by id
+app.put("/sets/:_id", async (req, res) => {
+  res.send(
+    await db.updateOne(
+      "ExerciseSets",
+      `date = "${req.body.date}", exercise_id = ${parseInt(
+        req.body.exercise_id
+      )}, reps = ${parseInt(req.body.reps)}, weight = ${parseInt(
+        req.body.weight
+      )}`,
+      "es_id",
+      `${req.params._id}`
+    )
+  );
+});
+
+// Delete ExerciseSets by id
+app.delete("/sets/:_id", async (req, res) => {
+  res.send(await db.deleteOne("ExerciseSets", "es_id", `${req.params._id}`));
 });
 
 app.listen(port, () => {
